@@ -7,6 +7,7 @@ int main()
 {
     LinkedList* pArrayConcursantes = ll_newLinkedList();
     char archivo[40];
+    char archivoAGuardar[100]="resultado";
     int opcion;
     int Condicion;
     Condicion=0;
@@ -17,6 +18,7 @@ int main()
         printf("3.Mostrar nuevos puntajes \n");
         printf("4.Ingresar notas del jurado \n");
         printf("5.Guardar en archivo \n");
+        printf("6.Listar Concursantes con cierta condicion \n");
         printf("0.Salir \n");
         scanf("%d",&opcion);
         switch(opcion)
@@ -58,8 +60,11 @@ int main()
             {
                 if(Condicion>0)
                 {
-                    EvaluacionJurado(pArrayConcursantes);
-                    Condicion=2;
+                    if(ll_map(pArrayConcursantes, EvaluacionJurado) == 1)
+                    {
+                        Condicion=2;
+                    }
+
                 }else
                 {
                     printf("\nPrimero se debe cargar un archivo (1.Cargar archivos)\n");
@@ -70,7 +75,24 @@ int main()
             {
                 if(Condicion>0)
                 {
-                    /*Guardar en archivo resultado_varArchivo_.csv */
+                    printf("Ingrese archivo a abrir ");
+                    fflush(stdin);
+                    scanf("%[^\n]",archivo);
+                    strcat(archivoAGuardar, archivo);
+                    strcat(archivoAGuardar, ".csv");
+                    printf("%s",archivoAGuardar);
+                    saveAsText(archivoAGuardar, pArrayConcursantes);
+                }else
+                {
+                    printf("\nPrimero se debe cargar un archivo (1.Cargar archivos)\n");
+                }
+
+            }break;
+            case 6:
+            {
+                if(Condicion>0)
+                {
+                    /*Listar con condicion */
                 }else
                 {
                     printf("\nPrimero se debe cargar un archivo (1.Cargar archivos)\n");

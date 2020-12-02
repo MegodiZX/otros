@@ -594,3 +594,27 @@ int ll_sort(LinkedList* this, int (*pFunc)(void*,void*), int order)
     return returnAux;
 
 }
+
+int ll_map(LinkedList* this, int (*pFunc)(void*))
+{
+    int i;
+    int state=0;
+    int counter=0;
+    void* oneContestant = NULL;
+    if(this != NULL)
+    {
+        for(i=0; i<ll_len(this); i++)
+        {
+            oneContestant = ll_get(this, i);
+            if(pFunc(oneContestant) == 1)
+            {
+                counter++;
+            }
+        }
+        if(counter == ll_len(this))
+        {
+            state = 1;
+        }
+    }
+    return state;
+}
