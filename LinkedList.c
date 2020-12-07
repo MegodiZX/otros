@@ -618,3 +618,23 @@ int ll_map(LinkedList* this, int (*pFunc)(void*))
     }
     return state;
 }
+
+LinkedList* ll_filter(LinkedList* this, int (*pFunc)(void*))
+{
+    int i;
+    void* pElement = NULL;
+    LinkedList* newList = ll_newLinkedList();
+    if(this != NULL)
+    {
+
+        for(i=0; i<ll_len(this); i++)
+        {
+            pElement = ll_get(this, i);
+            if(pFunc(pElement) == 1)
+            {
+                ll_add(newList, pElement);
+            }
+        }
+    }
+    return newList;
+}

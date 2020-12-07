@@ -9,8 +9,8 @@ int main()
     char archivo[40];
     char archivoAGuardar[100]="resultado";
     int opcion;
-    int Condicion;
-    Condicion=0;
+    int Condicion=0;
+
     do
     {
         printf("\n1.Cargar archivos \n");
@@ -18,7 +18,9 @@ int main()
         printf("3.Mostrar nuevos puntajes \n");
         printf("4.Ingresar notas del jurado \n");
         printf("5.Guardar en archivo \n");
-        printf("6.Listar Concursantes con cierta condicion \n");
+        printf("6.Listar Concursantes con puntaje menor a 10 en la primera ronda \n");
+        printf("7.Guardar Archivo individual con puntaje menor a 10 en la primera ronda \n");
+        printf("8.Listar los 3 finalistas (primera ronda) \n");
         printf("0.Salir \n");
         scanf("%d",&opcion);
         switch(opcion)
@@ -30,12 +32,11 @@ int main()
                 scanf("%[^\n]",archivo);
                 strcat(archivo, ".csv");
                 loadFromText(archivo, pArrayConcursantes);
-                Condicion=1;
 
             }break;
             case 2:
             {
-                if(Condicion>0)
+                if(ll_isEmpty(pArrayConcursantes) == 0)
                 {
                     ListConcursantes(pArrayConcursantes);
                 }else
@@ -46,7 +47,7 @@ int main()
             }break;
             case 3:
             {
-                if(Condicion>1)
+                if(Condicion>0)
                 {
                     ListConcursantes_ConPuntajesActualizados(pArrayConcursantes);
                 }else
@@ -58,11 +59,12 @@ int main()
             }break;
             case 4:
             {
-                if(Condicion>0)
+                if(ll_isEmpty(pArrayConcursantes) == 0)
                 {
                     if(ll_map(pArrayConcursantes, EvaluacionJurado) == 1)
                     {
-                        Condicion=2;
+                        printf("Se ingresaron las notas del jurado");
+                        Condicion=1;
                     }
 
                 }else
@@ -75,27 +77,51 @@ int main()
             {
                 if(Condicion>0)
                 {
-                    printf("Ingrese archivo a abrir ");
-                    fflush(stdin);
-                    scanf("%[^\n]",archivo);
                     strcat(archivoAGuardar, archivo);
-                    strcat(archivoAGuardar, ".csv");
-                    printf("%s",archivoAGuardar);
                     saveAsText(archivoAGuardar, pArrayConcursantes);
                 }else
                 {
-                    printf("\nPrimero se debe cargar un archivo (1.Cargar archivos)\n");
+                    printf("\nPrimero se debe cargar un archivo (1.Cargar archivos)y ser evaluados por el jurado (4.Ingresar notas del jurado)\n"\n");
                 }
 
             }break;
             case 6:
             {
-                if(Condicion>0)
+                if(ll_isEmpty(pArrayConcursantes) == 0)
                 {
-                    /*Listar con condicion */
-                }else
+
+                    LinkedList* newList = ll_filter(pArrayConcursantes, &MenosDe10PrimeraRonda);
+                    ListConcursantes(newList);
+                }
+                else
                 {
-                    printf("\nPrimero se debe cargar un archivo (1.Cargar archivos)\n");
+                    printf("\nPrimero se debe cargar un archivo(1.Cargar archivos)");
+                }
+
+            }break;
+            case 7:
+            {
+                if(ll_isEmpty(pArrayConcursantes) == 0)
+                {
+                    LinkedList* newList = ll_filter(pArrayConcursantes, &MenosDe10PrimeraRonda);
+                    saveAsText_PuntajeIndividualPrimeraRonda(newList);
+                }
+                else
+                {
+                    printf("\nPrimero se debe cargar un archivo (1.Cargar archivos)");
+                }
+
+            }break;
+            case 8:
+            {
+                if(ll_isEmpty(pArrayConcursantes) == 0)
+                {
+                    LinkedList* newList = ll_filter(pArrayConcursantes, &filtrarFinalistas());
+                    saveAsText_PuntajeIndividualPrimeraRonda(newList);
+                }
+                else
+                {
+                    printf("\nPrimero se debe cargar un archivo (1.Cargar archivos)");
                 }
 
             }break;

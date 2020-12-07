@@ -65,3 +65,7 @@ int EvaluacionJurado(void* element);
 void MostrarUnConcursante_ConPuntajesActualizados(Econcursante* this);
 int ListConcursantes_ConPuntajesActualizados(LinkedList* pArrayConcursantes);
 int saveAsText(char* fileName, LinkedList* pArrayConcursantes);
+//tercera parte
+int MenosDe10PrimeraRonda(void* element);
+int saveAsText_PuntajeIndividualPrimeraRonda(LinkedList* pArrayConcursantes);
+int filtrarFinalistas(void* element,int puntajeMax,int* cont);

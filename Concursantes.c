@@ -320,16 +320,16 @@ int GET_concursante_promedioPuntaje(Econcursante* this,float* promedioPuntaje)
     return state;
 }
 
-int EvaluacionJurado(void* element)
+int EvaluacionJurado(void* this)
 {
     int state = 0;
     int puntajePrimeraRonda;
     int puntajeSegundaRonda;
     float promedio;
 
-    if(element != NULL)
+    if(this != NULL)
     {
-        Econcursante* pElement = (Econcursante*)element;
+        Econcursante* pElement = (Econcursante*)this;
         GET_concursante_puntajePrimeraRonda(pElement, &puntajePrimeraRonda);
         puntajeSegundaRonda= rand() % 101;
         set_concursante_puntajeSegundaRonda(pElement,puntajeSegundaRonda);
@@ -397,7 +397,7 @@ int saveAsText(char* fileName, LinkedList* pArrayConcursantes)
     char temaPresentacion[100];
     int puntajePrimeraRonda;
     int puntajeSegundaRonda;
-    int promedio;
+    float promedio;
     FILE* pFile = NULL;
     pFile = fopen(fileName, "w");
 
@@ -417,12 +417,83 @@ int saveAsText(char* fileName, LinkedList* pArrayConcursantes)
             GET_concursante_puntajePrimeraRonda(this, &puntajePrimeraRonda);
             GET_concursante_puntajeSegundaRonda(this, &puntajeSegundaRonda);
             GET_concursante_promedioPuntaje(this, &promedio);
-            fprintf(pFile, "%d,%d,%s,%d,%s,%s,%d,%d,%d\n",numeroConcursante,anioDeNacimiento,nombre,DNI,fechaPresentacion,temaPresentacion,puntajePrimeraRonda,puntajeSegundaRonda,promedio);
+            fprintf(pFile, "%d,%d,%s,%d,%s,%s,%d,%d,%f\n",numeroConcursante,anioDeNacimiento,nombre,DNI,fechaPresentacion,temaPresentacion,puntajePrimeraRonda,puntajeSegundaRonda,promedio);
             state = 1;
         }
     }
 
     fclose(pFile);
     this = NULL;
+    return state;
+}
+
+int MenosDe10PrimeraRonda(void* element)
+{
+    int state=0;
+    int puntajePrimeraRonda;
+    if(element != NULL)
+    {
+        Econcursante* this = (Econcursante*)element;
+        GET_concursante_puntajePrimeraRonda(this, &puntajePrimeraRonda);
+        if(10>puntajePrimeraRonda)
+        {
+            state=1;
+        }
+    }
+    return state;
+}
+
+int saveAsText_PuntajeIndividualPrimeraRonda(LinkedList* pArrayConcursantes)
+{
+    int i;
+    int state = -1;
+    Econcursante* this = NULL;
+    int DNI;
+    char archivoAGuardar[50];
+    int puntajePrimeraRonda;
+    FILE* pFile = NULL;
+
+    for (i = 0; i < ll_len(pArrayConcursantes); i++)
+    {
+        this = ll_get(pArrayConcursantes, i);
+        GET_concursante_DNI(this, &DNI);
+        sprintf(archivoAGuardar,"%d",DNI);
+        strcat(archivoAGuardar, ".csv");
+        pFile = fopen(archivoAGuardar, "w");
+
+        fprintf(pFile, "Numero del Concursante,Año de nacimiento,Nombre,DNI,Fecha de Presentacion, Tema, Puntaje 1ra Ronda\n");
+        GET_concursante_numeroConcursante(this, &numeroConcursante);
+        GET_concursante_anioDeNacimiento(this, &anioDeNacimiento);
+        GET_concursante_nombre(this, nombre);
+        GET_concursante_DNI(this, &DNI);
+        GET_concursante_fechaPresentacion(this, fechaPresentacion);
+        GET_concursante_TemaDePresentacion(this, temaPresentacion);
+        GET_concursante_puntajePrimeraRonda(this, &puntajePrimeraRonda);
+        GET_concursante_puntajeSegundaRonda(this, &puntajeSegundaRonda);
+        GET_concursante_promedioPuntaje(this, &promedio);
+        fprintf(pFile, "%d,%d,%s,%d,%s,%s,%d\n",numeroConcursante,anioDeNacimiento,nombre,DNI,fechaPresentacion,temaPresentacion,puntajePrimeraRonda);
+
+        fclose(pFile);
+        state = 1;
+    }
+
+
+    this = NULL;
+    return state;
+}
+
+int filtrarFinalistas(void* element,int puntajeMax,int* cont)
+{
+    int state=0;
+    if((*cont)<3)
+    {
+        Econcursante* this = (Econcursante*)element;
+        GET_concursante_puntajePrimeraRonda(this, &puntajePrimeraRonda);
+        if(puntajeMax==puntajePrimeraRonda)
+        {
+            (*cont)+1;
+            state=1;
+        }
+    }
     return state;
 }

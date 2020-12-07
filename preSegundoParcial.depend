@@ -1,24 +1,24 @@
 # depslib dependency file v1.0
 1606157016 source:c:\users\megodi\downloads\presegundoparcial\controlador.c
 
-1606876676 source:c:\users\megodi\downloads\presegundoparcial\linkedlist.c
+1607369783 source:c:\users\megodi\downloads\presegundoparcial\linkedlist.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"LinkedList.h"
 
-1606876676 c:\users\megodi\downloads\presegundoparcial\linkedlist.h
+1607369726 c:\users\megodi\downloads\presegundoparcial\linkedlist.h
 
-1606876941 source:c:\users\megodi\downloads\presegundoparcial\concursantes.c
+1607377963 source:c:\users\megodi\downloads\presegundoparcial\concursantes.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"Concursantes.h"
 
-1606876933 c:\users\megodi\downloads\presegundoparcial\concursantes.h
+1607372639 c:\users\megodi\downloads\presegundoparcial\concursantes.h
 	"LinkedList.h"
 
-1606876689 source:c:\users\megodi\downloads\presegundoparcial\main.c
+1607377320 source:c:\users\megodi\downloads\presegundoparcial\main.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
