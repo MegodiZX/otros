@@ -30,6 +30,7 @@ typedef struct
     char temaPresentacion[100];
     int puntajePrimeraRonda;
     int puntajeSegundaRonda;
+    int puntajeTerceraRonda;
     float promedioPuntaje;
 }Econcursante;
 
@@ -68,4 +69,6 @@ int saveAsText(char* fileName, LinkedList* pArrayConcursantes);
 //tercera parte
 int MenosDe10PrimeraRonda(void* element);
 int saveAsText_PuntajeIndividualPrimeraRonda(LinkedList* pArrayConcursantes);
-int filtrarFinalistas(void* element,int puntajeMax,int* cont);
+int filtrarFinalistas(void* element, int puntajePrimerLugar, int puntajeSegundoLugar, int puntajeTercerLugar, int ronda);
+//cuarta parte
+int GET_concursante_puntajeTerceraRonda(Econcursante* this,int* puntajeTerceraRonda);

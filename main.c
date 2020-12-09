@@ -21,6 +21,8 @@ int main()
         printf("6.Listar Concursantes con puntaje menor a 10 en la primera ronda \n");
         printf("7.Guardar Archivo individual con puntaje menor a 10 en la primera ronda \n");
         printf("8.Listar los 3 finalistas (primera ronda) \n");
+        printf("9.Guardar Archivo individual de los 3 finalistas(primera ronda) \n");
+        printf("10.Listar los 3 finalistas (tercera ronda) \n");
         printf("0.Salir \n");
         scanf("%d",&opcion);
         switch(opcion)
@@ -81,7 +83,7 @@ int main()
                     saveAsText(archivoAGuardar, pArrayConcursantes);
                 }else
                 {
-                    printf("\nPrimero se debe cargar un archivo (1.Cargar archivos)y ser evaluados por el jurado (4.Ingresar notas del jurado)\n"\n");
+                    printf("\nPrimero se debe cargar un archivo (1.Cargar archivos)y ser evaluados por el jurado (4.Ingresar notas del jurado)\n");
                 }
 
             }break;
@@ -116,7 +118,20 @@ int main()
             {
                 if(ll_isEmpty(pArrayConcursantes) == 0)
                 {
-                    LinkedList* newList = ll_filter(pArrayConcursantes, &filtrarFinalistas());
+                    LinkedList* newList = ll_filterV2(pArrayConcursantes, &filtrarFinalistas, 1);
+                    ListConcursantes(newList);
+                }
+                else
+                {
+                    printf("\nPrimero se debe cargar un archivo (1.Cargar archivos)");
+                }
+
+            }break;
+            case 9:
+            {
+                if(ll_isEmpty(pArrayConcursantes) == 0)
+                {
+                    LinkedList* newList = ll_filterV2(pArrayConcursantes, &filtrarFinalistas, 1);
                     saveAsText_PuntajeIndividualPrimeraRonda(newList);
                 }
                 else

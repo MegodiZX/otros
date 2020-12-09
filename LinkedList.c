@@ -638,3 +638,65 @@ LinkedList* ll_filter(LinkedList* this, int (*pFunc)(void*))
     }
     return newList;
 }
+
+LinkedList* ll_filterV2(LinkedList* this, int (*pFunc)(void*, int, int, int, int), int ronda)
+{
+    int i;
+    void* pElement = NULL;
+    LinkedList* newList = ll_newLinkedList();
+    int puntajePrimerLugar = -1;
+    int puntajeSegundoLugar = -1;
+    int puntajeTercerLugar = -1;
+    int puntajeAux = -1;
+
+    if(this != NULL)
+    {
+        if (ronda == 1)
+        {
+            for(i=0; i<ll_len(this); i++)
+            {
+                pElement = ll_get(this, i);
+                GET_concursante_puntajePrimeraRonda(this, &puntajeAux);
+
+                if (puntajeAux > puntajePrimerLugar){
+                    puntajePrimerLugar = puntajeAux;
+                }
+                else if(puntajeAux == puntajePrimerLugar || puntajeAux > puntajeSegundoLugar){
+                    puntajeSegundoLugar = puntajeAux;
+                }
+                else if(puntajeAux == puntajeTercerLugar || puntajeAux > puntajeTercerLugar){
+                    puntajeTercerLugar = puntajeAux;
+                }
+            }
+        }
+        else
+        {
+            for(i=0; i<ll_len(this); i++)
+            {
+                pElement = ll_get(this, i);
+                GET_concursante_puntajeTerceraRonda(this, &puntajeAux);
+
+                if (puntajeAux > puntajePrimerLugar){
+                    puntajePrimerLugar = puntajeAux;
+                }
+                else if(puntajeAux == puntajePrimerLugar || puntajeAux > puntajeSegundoLugar){
+                    puntajeSegundoLugar = puntajeAux;
+                }
+                else if(puntajeAux == puntajeTercerLugar || puntajeAux > puntajeTercerLugar){
+                    puntajeTercerLugar = puntajeAux;
+                }
+            }
+        }
+
+        for(i=0; i<ll_len(this); i++)
+        {
+            pElement = ll_get(this, i);
+            if(pFunc(pElement, puntajePrimerLugar, puntajeSegundoLugar, puntajeTercerLugar, ronda) == 1)
+            {
+                ll_add(newList, pElement);
+            }
+        }
+
+    }
+    return newList;
+}

@@ -448,9 +448,14 @@ int saveAsText_PuntajeIndividualPrimeraRonda(LinkedList* pArrayConcursantes)
     int i;
     int state = -1;
     Econcursante* this = NULL;
+    int numeroConcursante;
+    int anioDeNacimiento;
+    char nombre[50];
     int DNI;
-    char archivoAGuardar[50];
+    char fechaPresentacion[100];
+    char temaPresentacion[100];
     int puntajePrimeraRonda;
+    char archivoAGuardar[50];
     FILE* pFile = NULL;
 
     for (i = 0; i < ll_len(pArrayConcursantes); i++)
@@ -469,8 +474,6 @@ int saveAsText_PuntajeIndividualPrimeraRonda(LinkedList* pArrayConcursantes)
         GET_concursante_fechaPresentacion(this, fechaPresentacion);
         GET_concursante_TemaDePresentacion(this, temaPresentacion);
         GET_concursante_puntajePrimeraRonda(this, &puntajePrimeraRonda);
-        GET_concursante_puntajeSegundaRonda(this, &puntajeSegundaRonda);
-        GET_concursante_promedioPuntaje(this, &promedio);
         fprintf(pFile, "%d,%d,%s,%d,%s,%s,%d\n",numeroConcursante,anioDeNacimiento,nombre,DNI,fechaPresentacion,temaPresentacion,puntajePrimeraRonda);
 
         fclose(pFile);
@@ -482,18 +485,36 @@ int saveAsText_PuntajeIndividualPrimeraRonda(LinkedList* pArrayConcursantes)
     return state;
 }
 
-int filtrarFinalistas(void* element,int puntajeMax,int* cont)
+int GET_concursante_puntajeTerceraRonda(Econcursante* this,int* puntajeTerceraRonda)
 {
-    int state=0;
-    if((*cont)<3)
+    int state = -1;
+    if (this!=NULL)
     {
-        Econcursante* this = (Econcursante*)element;
-        GET_concursante_puntajePrimeraRonda(this, &puntajePrimeraRonda);
-        if(puntajeMax==puntajePrimeraRonda)
-        {
-            (*cont)+1;
-            state=1;
-        }
+        *puntajeTerceraRonda = this->puntajeTerceraRonda;
+        state = 1;
     }
+    return state;
+}
+
+int filtrarFinalistas(void* element, int puntajePrimerLugar, int puntajeSegundoLugar, int puntajeTercerLugar, int ronda)
+{
+    int state = 0;
+    int puntajeElemento = -1;
+    Econcursante* this = (Econcursante*)element;
+
+    if (ronda == 1)
+    {
+        GET_concursante_puntajePrimeraRonda(this, &puntajeElemento);
+    }
+    else
+    {
+        GET_concursante_puntajeTerceraRonda(this, &puntajeElemento);
+    }
+
+
+    if (puntajeElemento == puntajePrimerLugar || puntajeElemento == puntajeSegundoLugar || puntajeElemento == puntajeTercerLugar){
+        state = 1;
+    }
+
     return state;
 }
