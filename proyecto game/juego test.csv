@@ -1,0 +1,105 @@
+#include <stdio.h>
+#include <stdlib.h>
+typedef struct
+{
+    int ataque;
+    int defensa;
+    int vida;
+    int vidaMax;
+}ePersonaje;
+
+void mostrarStats(ePersonaje jugador);
+
+int main()
+{
+    int opcion;
+    ePersonaje Jugador1;
+    ePersonaje enemigo;
+    Jugador1.ataque=10;
+    Jugador1.defensa=10;
+    Jugador1.vida=30;
+    Jugador1.vidaMax=30;
+    int random;
+    int opcionBatalla;
+    enemigo.ataque=9;
+    enemigo.defensa=9;
+    enemigo.vida=28;
+    enemigo.vidaMax=28;
+    int dmgConBloqueo=0;
+    
+    do
+    {
+        printf("1.Avanza \n2.Descansa \n3.Salir de la mazmorra");
+        scanf("%d",&opcion);
+        mostrarStats(Jugador1);
+        switch(opcion)
+        {
+            
+            case 1:
+            random=rand() % 11;
+            if(random<4)
+            {
+                printf("BATALLA\n ");
+                do
+                {
+                    mostrarStats(Jugador1);
+                    
+                    mostrarStats(enemigo);
+                    printf("1.Atacar \n2.Bloquear\n3.Huir\n");
+                    scanf("%d",&opcionBatalla);
+                    
+                    switch(opcionBatalla)
+                    {
+                        case 1:
+                        enemigo.vida=enemigo.vida-Jugador1.ataque;
+                        Jugador1.vida=Jugador1.vida-enemigo.ataque;
+                        break;
+                        case 2:
+                        dmgConBloqueo=enemigo.ataque-Jugador1.defensa;
+                        if(dmgConBloqueo<0)
+                        {
+                            dmgConBloqueo=0;
+                        }
+                        Jugador1.vida=Jugador1.vida-dmgConBloqueo;
+                        break;
+                        
+                    }
+                    
+                }while(enemigo.vida>0);
+                printf("Ganaste \n");
+                
+                
+            }else
+            {
+                Jugador1.ataque=Jugador1.ataque+1;
+                Jugador1.defensa=Jugador1.defensa+1;
+                Jugador1.vida=Jugador1.vida+3;
+                Jugador1.vidaMax=Jugador1.vidaMax+3;
+            }
+            break;
+            case 2:
+            Jugador1.vida=Jugador1.vida+20;
+            if(Jugador1.vida>Jugador1.vidaMax)
+            {
+                Jugador1.vida=Jugador1.vidaMax;
+            }
+            break;
+            case 3:
+            printf("Saliste de la mazmorra \n");
+            break;
+        }
+    }while(opcion!=3);
+    
+
+    return 0;
+}
+
+void mostrarStats(ePersonaje jugador)
+{
+    printf("\tataque: %d \tdefensa: %d \tvida: %d\n",jugador.ataque,jugador.defensa,jugador.vida);
+}
+/*
+void avanzar(ePersonaje* jugador1)
+{
+    
+}*/
